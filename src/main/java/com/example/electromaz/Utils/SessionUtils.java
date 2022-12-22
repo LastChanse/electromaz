@@ -11,6 +11,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class SessionUtils {
+    /**
+     * startSession -- функция начинающая отсчёт времени сессии и заносящая оставшееся время в текстовое поле
+     * ссылка на которое передаётся в функцию
+     * @param sessionInfo -- ссылка на текстовое поле
+     */
     public static void startSession(Label sessionInfo) {
         int[] timeMin = {Config.timeSession}; //Чтобы внутри события был доступен, делаем в виде массива.
         int[] timeSec = {60};
@@ -53,6 +58,11 @@ public class SessionUtils {
         timeline.play(); //Запускаем
     }
 
+    /**
+     * finishSession -- функция завершающая отсчёт времени сессии и сообщающая об этом, также возвращает пользователя
+     * на страницу авторизации
+     * @param sessionInfo -- ссылка на текстовое поле
+     */
     private static void finishSession(Label sessionInfo) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
@@ -65,8 +75,7 @@ public class SessionUtils {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    SceneUtils sceneUtils = new SceneUtils();
-                    sceneUtils.changeScene(sessionInfo.getScene(), "login-view.fxml", null);
+                    new SceneUtils().changeSceneToLogin(sessionInfo.getScene(), "login-view.fxml");
                 });
                 timer.cancel();
             }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.electromaz.AddOrderController">
+    <center>
+        <AnchorPane BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane maxHeight="48.0" prefHeight="48.0" style="-fx-background-color: #558eda;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label fx:id="pageTitle" layoutX="20.0" layoutY="10.0" text="Добавление заказа" textFill="WHITE">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="24.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="exitOBtn" layoutX="437.0" layoutY="22.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="48.0" style="-fx-background-color: #0000;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <graphic>
+                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="48.0" prefWidth="48.0" text="X" textFill="WHITE">
+                                    <font>
+                                        <Font name="Arial Rounded MT Bold" size="36.0" />
+                                    </font>
+                                </Label>
+                            </graphic>
+                        </Button>
+                    </children>
+                </AnchorPane>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0">
+                    <children>
+                        <TextField fx:id="orderIdProduct" layoutX="183.0" layoutY="20.0" promptText="Номер товара" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="20.0">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="12.0" />
+                            </font>
+                        </TextField>
+                        <TextField fx:id="orderIdUser" layoutX="160.0" layoutY="30.0" promptText="Номер продавца" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="50.0">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="12.0" />
+                            </font>
+                        </TextField>
+                        <TextField fx:id="orderProductCount" layoutX="150.0" layoutY="142.0" promptText="Количество товара" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="80.0" />
+                        <TextField fx:id="orderFinalPrice" layoutX="150.0" layoutY="142.0" promptText="Итоговая цена" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="110.0" />
+                        <Button fx:id="createBarcode" layoutX="110.0" layoutY="374.0" mnemonicParsing="false" prefWidth="250.0" style="-fx-background-color: #558eda;" text="ШТРИХ-КОД" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="260.0">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="30.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="addOrder" layoutX="110.0" layoutY="374.0" mnemonicParsing="false" prefWidth="250.0" style="-fx-background-color: #558eda;" text="ДОБАВИТЬ" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="260.0">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="30.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

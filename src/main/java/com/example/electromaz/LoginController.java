@@ -1,57 +1,78 @@
 package com.example.electromaz;
 
+import com.example.electromaz.Utils.AlertUtils;
 import com.example.electromaz.Utils.Config;
 import com.example.electromaz.Utils.DBUtils;
 import com.example.electromaz.Utils.SceneUtils;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 import org.w3c.dom.events.Event;
 
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
+
 public class LoginController {
-    public boolean lock = false;
+    public boolean lock = false; // Переменная блокировки ввода
+    public int countTryLogin = 0; // Количество попыток входа
 
     @FXML
-    private HBox hbox;
+    private ImageView logo; // Логотип
 
     @FXML
-    private ImageView logo;
+    private TextField loginField; // Поле ввода логина
 
     @FXML
-    private TextField loginField;
+    private Button authBtn; // Кнопка авторизации
 
     @FXML
-    private Button authBtn;
+    private PasswordField passwordField; // Поле ввода пароля (пароль скрыт)
 
     @FXML
-    private PasswordField passwordField;
+    private TextField passwordTextField; // Поле ввода пароля (пароль открыт)
 
     @FXML
-    private TextField passwordTextField;
+    private ToggleButton toggleBtn; // Переключатель видимости пароля
 
     @FXML
-    private ToggleButton toggleBtn;
+    private Button exitBtn; // Кнопка выхода из аккаунта
 
     @FXML
-    private Button exitBtn;
+    private Label errorText; // Текст ошибки
 
     @FXML
-    private Label errorText;
+    private Label errorMsgLogin; // Текст ошибки поля ввода логина
 
     @FXML
-    private Label errorMsgLogin;
+    private Label errorMsgPassword; // Текст ошибки поля ввода пароля
 
     @FXML
-    private Label errorMsgPassword;
+    private LoginController selfRoot; // Ссылка на самого себя
 
+    /**
+     * getSelfController -- функция получения ссылки контроллера авторизации на самого себя
+     * @param selfRoot -- ссылка на контроллер авторизации
+     */
+    public void getSelfController(LoginController selfRoot) {
+        this.selfRoot = selfRoot;
+    }
+
+    /**
+     * initialize -- функция запускающаяся при запуске контроллера
+     */
     @FXML
     public void initialize() {
         // Загружаем кантинки
@@ -66,16 +87,28 @@ public class LoginController {
         errorMsgPassword.setVisible(false);
     }
 
+    /**
+     * onTypedPas -- функция копирующая текст из поля ввода со скрытым паролем в поле ввода с открытым паролем.
+     * Срабатывает при введении данных в поле со скрытым паролем
+     */
     @FXML
     private void onTypedPas() {
         passwordTextField.setText(passwordField.getText());
     }
 
+    /**
+     * onTypedTextPas -- функция копирующая текст из поля ввода с открытым паролем в поле ввода со скрытым паролем.
+     * Срабатывает при введении данных в поле с открытым паролем
+     */
     @FXML
     private void onTypedTextPas() {
         passwordField.setText(passwordTextField.getText());
     }
 
+    /**
+     * toggleButtonShowOtHide -- функция переключания видимости поля ввода пароля и изображения переключателя видимости.
+     * Срабатывает при нажатии на переключатель видимости.
+     */
     @FXML
     private void toggleButtonShowOtHide() {
         if (toggleBtn.isSelected()) {
@@ -89,6 +122,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * auth -- функция авторизующая пользователя.
+     * Срабатывает по нажатию на кнопку авторизации
+     */
     @FXML
     private void auth() {
         if (loginField.getText().isEmpty()) {
@@ -104,27 +141,51 @@ public class LoginController {
 
         if (!(loginField.getText().isEmpty() || passwordField.getText().isEmpty())) {
             DBUtils.logInUser(authBtn.getScene(), loginField.getText(), passwordField.getText());
+        } else {
+            countTryLogin++;
+            if (countTryLogin >= Config.countTryLogin) {
+                countTryLogin = 0;
+                new SceneUtils().openCaptchaScene(selfRoot);
+            }
         }
     }
 
+    /**
+     * exit -- функция завершения программы.
+     * Срабатывает по нажатию на кнопку закрытия окна
+     */
     @FXML
     private void exit() {
         System.exit(0);
     }
 
+    /**
+     * lock -- функция блокировки ввода
+     * @param on -- если true то блокировать
+     * @param timeSec -- время блокировки в секундах
+     */
     @FXML
-    public void lock(boolean on) {
+    public void lock(boolean on, int timeSec) {
         lock = on;
         if (on) {
             lockAll(true);
-            startTimer();
+            startTimer(timeSec);
         }
     }
 
-    private void startTimer() {
-        int[] timeMin = {Config.timeLockAuthAfterSession}; //Чтобы внутри события был доступен, делаем в виде массива.
-        int[] timeSec = {60};
-        timeMin[0]--;
+    /**
+     * startTimer -- функция запуска таймера блокировки
+     * @param timeSeconds -- время действия таймера в секундах
+     */
+    private void startTimer(int timeSeconds) {
+        double[] timeMin = {0}; //Чтобы внутри события был доступен, делаем в виде массива.
+        int[] timeSec = {timeSeconds};
+        if (timeSeconds >= 60) {
+            timeMin[0] = timeSeconds / 60;
+            timeMin[0]--;
+            timeSec[0] = timeSeconds - ((int) timeMin[0]) * 60;
+        }
+
         Timeline timeline = new Timeline(
                 new KeyFrame(
                         Duration.millis(1000), //1000 мс = 1 сек
@@ -132,9 +193,9 @@ public class LoginController {
                             --timeSec[0];
 
                             if (timeSec[0] < 10) {
-                                errorText.setText("Время блокировки: " + timeMin[0] + ":0" + timeSec[0]);
+                                errorText.setText("Время блокировки: " + (int) timeMin[0] + ":0" + timeSec[0]);
                             } else {
-                                errorText.setText("Время блокировки: " + timeMin[0] + ":" + timeSec[0]);
+                                errorText.setText("Время блокировки: " + (int) timeMin[0] + ":" + timeSec[0]);
                             }
 
                             if ((timeMin[0] == 0) && (timeSec[0] == 0)) {
@@ -151,10 +212,14 @@ public class LoginController {
                 )
         );
 
-        timeline.setCycleCount(Config.timeLockAuthAfterSession * 60); // Ограничим число повторений
+        timeline.setCycleCount((int) timeSeconds); // Ограничим число повторений
         timeline.play(); //Запускаем
     }
 
+    /**
+     * lockAll -- функция блокировки элементов
+     * @param lock -- если true то блокировать
+     */
     private void lockAll(boolean lock) {
         loginField.setDisable(lock);
         passwordField.setDisable(lock);
@@ -163,8 +228,9 @@ public class LoginController {
         authBtn.setDisable(lock);
     }
 
-    // Actions
-
+    /**
+     * Анимации при выделении и наведении
+     */
     @FXML
     private void activateLoginField() {
         loginField.setStyle("-fx-background-color: #00000000; -fx-border-color: #558eda; -fx-border-width: 0px 0px 2px 0px;");

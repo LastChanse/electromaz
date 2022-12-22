@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.electromaz.BarcodeController">
+    <center>
+        <AnchorPane BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane maxHeight="48.0" prefHeight="48.0" style="-fx-background-color: #558eda;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label layoutX="20.0" layoutY="10.0" text="ШТРИХ-КОД" textFill="WHITE">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="24.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="exitOBtn" layoutX="437.0" layoutY="22.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="48.0" style="-fx-background-color: #0000;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <graphic>
+                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="48.0" prefWidth="48.0" text="X" textFill="WHITE">
+                                    <font>
+                                        <Font name="Arial Rounded MT Bold" size="36.0" />
+                                    </font>
+                                </Label>
+                            </graphic>
+                        </Button>
+                    </children>
+                </AnchorPane>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0">
+                    <children>
+                        <Button fx:id="downloadBarcode" layoutX="110.0" layoutY="374.0" mnemonicParsing="false" prefWidth="250.0" style="-fx-background-color: #558eda;" text="Скачать" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="260.0">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="30.0" />
+                            </font>
+                        </Button>
+                        <HBox alignment="CENTER" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                            <children>
+                                <Canvas fx:id="barcode" height="200.0" width="200.0" />
+                            </children>
+                        </HBox>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

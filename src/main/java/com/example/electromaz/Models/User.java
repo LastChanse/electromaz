@@ -1,9 +1,9 @@
 package com.example.electromaz.Models;
 
 public class User {
+    private String id;
     private String login;
     private String password;
-    private String role;
     private String fio;
 
     public User() {}
@@ -13,11 +13,19 @@ public class User {
         this.password = password;
     }
 
-    public User(String login, String password, String role, String fio) {
+    public User(String id, String login, String password, String fio) {
+        this.id = id;
         this.login = login;
         this.password = password;
-        this.role = role;
         this.fio = fio;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -32,13 +40,6 @@ public class User {
     }
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getFio() {

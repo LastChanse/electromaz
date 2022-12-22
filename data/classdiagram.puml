@@ -1,0 +1,284 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class SwingFXUtils {
+toFXImage(BufferedImage var0, WritableImage var1)
+getBestBufferedImageType(PixelFormat<?> var0, BufferedImage var1, boolean var2)
+getAssociatedPixelFormat(BufferedImage var0)
+checkFXImageOpaque(PixelReader var0, int var1, int var2)
+fromFXImage(Image var0, BufferedImage var1)
+}
+
+class Order {
+String product
+String user
+String count
+String finalprice
+getProduct()
+setProduct(String product)
+getUser()
+setUser(String user)
+getCount()
+setCount(String count)
+getFinalprice()
+setFinalprice(String finalprice)
+}
+
+class Product {
+String id
+String name
+String price
+String description
+getId()
+setId(String id)
+getName()
+setName(String name)
+getPrice()
+setPrice(String price)
+getDescription()
+setDescription(String description)
+}
+
+class User {
+String id
+String login
+String password
+String fio
+getId()
+setId(String id)
+getLogin()
+setLogin(String login)
+getPassword()
+setPassword(String password)
+getFio()
+setFio(String fio)
+}
+
+class CaptchaGenerator {
+char[] captchaSymbols
+Canvas canvas
+GraphicsContext gc
+generate(int length)
+generateCaptchaText(int length)
+}
+
+class AlertUtils {
+showAlert(String message)
+showAlert(String message, Alert.AlertType alertType)
+}
+
+class Config {
+String resourcesPath
+String appName
+String appIconPath
+Image appIcon
+int draggedYZone
+String DBUrl
+String DBUser
+String DBPassword
+int timeSession
+int timeWarningSession
+int timeLockAuthAfterSession
+String invisiblePath
+String visiblePath
+ImageView invisible
+ImageView visible
+int captchaLength
+int countTryLogin
+}
+
+class DBUtils {
+logInUser(Scene scene, String login, String password)
+addOrder(Order order)
+getOrdersList()
+getOrdersList(String searchProduct)
+getProductsList()
+getProductsList(String searchName)
+addProduct(Product product)
+}
+
+class SceneUtils {
+double xOffset
+double yOffset
+deleteDefaultMenu(Stage stage, Scene scene)
+openCaptchaScene(LoginController loginController)
+openWindowScene(String fxmlFile)
+changeSceneToLogin(Scene scene, String fxmlFile, User user)
+changeSceneToMain(Scene scene, String fxmlFile, User user)
+}
+
+class SessionUtils {
+startSession(Label sessionInfo)
+finishSession(Label sessionInfo)
+}
+
+class AddOrderController {
+TextField orderIdProduct
+TextField orderIdUser
+TextField orderProductCount
+TextField orderFinalPrice
+Button exitOBtn
+Button createBarcode
+Button addOrder
+initialize()
+}
+
+class AddProductController {
+TextField productId
+TextField productName
+TextField productPrice
+TextArea productDescription
+Button exitOBtn
+Button addProduct
+initialize()
+}
+
+class BarcodeController {
+Canvas barcode
+Button downloadBarcode
+Button exitOBtn
+int CANVAS_SIZE
+Window primaryStage
+initialize()
+getData(Order order)
+}
+
+class CaptchaController {
+LoginController root
+Canvas canvas
+TextField textInputField
+CaptchaGenerator cg
+String captchaText
+getParentController(LoginController root)
+initialize()
+check()
+reset()
+}
+
+class HelloApplication {
+start(Stage stage)
+main(String[] args)
+}
+
+class LoginController {
+boolean lock
+int countTryLogin
+HBox hbox
+ImageView logo
+TextField loginField
+Button authBtn
+PasswordField passwordField
+TextField passwordTextField
+ToggleButton toggleBtn
+Button exitBtn
+Label errorText
+Label errorMsgLogin
+Label errorMsgPassword
+LoginController selfRoot
+getSelfController(LoginController selfRoot)
+initialize()
+onTypedPas()
+onTypedTextPas()
+toggleButtonShowOtHide()
+auth()
+exit()
+lock(boolean on, int timeSec)
+startTimer(int timeSeconds)
+lockAll(boolean lock)
+activateLoginField()
+activatePasswordField()
+activatePasswordTextField()
+selectedAuth()
+unselectedAuth()
+pressedAuth()
+releasedAuth()
+selectedToggleBtn()
+unselectedToggleBtn()
+selectedExitBtn()
+unselectedExitBtn()
+}
+
+class MainController {
+Button exitBtn
+Label userInfo
+Label sessionInfo
+Button logOutBtn
+Button goToProductsBtn
+Button goToOrdersBtn
+Button goToAppInfoBtn
+Label pageTitle
+GridPane pgProducts
+GridPane pgOrders
+GridPane pgAppInfo
+Button orderAddBtn
+Button orderSearchBtn
+TextField orderSearchField
+TableView<Order> tableOrders
+TableColumn<Order, String> orderProductCol
+TableColumn<Order, String> orderUserCol
+TableColumn<Order, String> orderCountCol
+TableColumn<Order, String> orderFinalPriceCol
+ObservableList<Order> ordersList
+Button productAddBtn
+Button productSearchBtn
+TextField productSearchField
+TableView<Product> tableProducts
+TableColumn<Product, String> productIdCol
+TableColumn<Product, String> productNameCol
+TableColumn<Product, String> productPriceCol
+TableColumn<Product, String> productDescriptionCol
+ObservableList<Product> productsList
+setUser(User user)
+initialize()
+refreshTableOrdersList()
+refreshTableOrdersList(String searchProduct)
+refreshTableProductsList()
+refreshTableProductsList(String searchName)
+handleClicks(ActionEvent event)
+handleClicksSearch(ActionEvent event)
+handleClicksAdd(ActionEvent event)
+exit()
+}
+
+SwingFXUtils <|-- BarcodeController
+Order <|-- AddOrderController
+Order <|-- BarcodeController
+Order <|-- MainController
+Order <|-- DBUtils
+Product <|-- AddProductController
+Product <|-- MainController
+Product <|-- DBUtils
+User <|-- MainController
+User <|-- DBUtils
+User <|-- SceneUtils
+CaptchaGenerator <|-- CaptchaController
+AlertUtils <|-- AddProductController
+AlertUtils <|-- AddOrderController
+AlertUtils <|-- LoginController
+AlertUtils <|-- DBUtils
+Config <|-- AddOrderController
+Config <|-- AddProductController
+Config <|-- CaptchaController
+Config <|-- HelloApplication
+Config <|-- LoginController
+Config <|-- DBUtils
+Config <|-- SceneUtils
+Config <|-- SessionUtils
+DBUtils <|-- AddProductController
+DBUtils <|-- AddOrderController
+DBUtils <|-- LoginController
+DBUtils <|-- MainController
+SceneUtils <|-- HelloApplication
+SceneUtils <|-- LoginController
+SceneUtils <|-- MainController
+SceneUtils <|-- DBUtils
+SceneUtils <|-- SessionUtils
+BarcodeController <|-- AddOrderController
+CaptchaController <|-- SceneUtils
+LoginController <|-- AddOrderController
+LoginController <|-- CaptchaController
+LoginController <|-- HelloApplication
+LoginController <|-- SceneUtils
+MainController <|-- SceneUtils
+
+@enduml
